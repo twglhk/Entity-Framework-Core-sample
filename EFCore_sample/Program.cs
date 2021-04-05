@@ -1,29 +1,40 @@
-﻿using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Storage;
-using System;
+﻿using System;
 
 namespace EFCore_sample
 {
     class Program
     {
-        static void InitializeDB(bool forceReset = false)
-        {
-            using (AppDbContext db = new AppDbContext())
-            {
-                // Check if DB exists
-                if (!forceReset && (db.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())
-                        return;
-
-                db.Database.EnsureDeleted();    // Delete DB
-                db.Database.EnsureCreated();    // Create DB with new 'Data Modeling'
-
-                Console.WriteLine("DB Initialized");
-            }
-        }
-
         static void Main(string[] args)
         {
-            InitializeDB(forceReset: true);
+            DbCommands.InitializeDB(forceReset: false);
+
+            // CRUD
+            Console.WriteLine("Input command");
+            Console.WriteLine("[0] Force Reset");
+            Console.WriteLine("[1] ReadAll");
+            Console.WriteLine("[2] UpdateDate");
+            Console.WriteLine("[3] DeleteItem");
+
+            while (true)
+            {
+                Console.Write("> ");
+                string command = Console.ReadLine();
+                switch (command)
+                {
+                    case "0":
+                        DbCommands.InitializeDB(forceReset: true);
+                        break;
+                    case "1":
+                        DbCommands.ReadAll();
+                        break;
+                    case "2":
+                        DbCommands.UpdateDate();
+                        break;
+                    case "3":
+                        DbCommands.DeleteItem();
+                        break;
+                }
+            }
         }
     }
 }
