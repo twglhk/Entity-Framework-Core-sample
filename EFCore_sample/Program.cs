@@ -12,8 +12,7 @@ namespace EFCore_sample
             Console.WriteLine("Input command");
             Console.WriteLine("[0] Force Reset");
             Console.WriteLine("[1] ReadAll");
-            Console.WriteLine("[2] UpdateDate");
-            Console.WriteLine("[3] DeleteItem");
+            Console.WriteLine("[2] ShowItems");
 
             while (true)
             {
@@ -28,10 +27,9 @@ namespace EFCore_sample
                         DbCommands.ReadAll();
                         break;
                     case "2":
-                        DbCommands.UpdateDate();
+                        DbCommands.ShowItems();
                         break;
                     case "3":
-                        DbCommands.DeleteItem();
                         break;
                 }
             }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EFCore_sample
 {
-    // DB table name = Item
+    //Entity class, DB table name = Item
     [Table("Item")]
     public class Item
     {
@@ -20,11 +20,13 @@ namespace EFCore_sample
         public Player Owner { get; set; }
     }
 
-    // DB table name = Player
+    //Entity class, DB table name = Player
     public class Player
     {
         public int PlayerId { get; set; }   // DB table Primary key
                                             // name convention (Class + Id)
         public string Name { get; set; }
+
+        public ICollection<Item> Items { get; set; }
     }
 }

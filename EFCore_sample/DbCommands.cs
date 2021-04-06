@@ -76,46 +76,22 @@ namespace EFCore_sample
             }
         }
 
-        // UPDATE
-        public static void UpdateDate()
+        public static void ShowItems()
         {
-            Console.WriteLine("Input Player Name");
-            Console.Write("> ");
+            Console.WriteLine("Input [Player Name]");
+            Console.Write(" > ");
             string name = Console.ReadLine();
-
+            
             using (var db = new AppDbContext())
             {
-                var items = db.items.Include(i => i.Owner)
-                            .Where(i => i.Owner.Name == name);
-
-                foreach (Item item in items)
+                foreach(Player player in db.Players.AsNoTracking().Where(p => p.Name == name).Include(p=>p.Items))
                 {
-                    item.CreateDate = DateTime.Now;
+                    foreach(Item item in player.Items)
+                    {
+                        Console.WriteLine($"{item.TemplateId}");
+                    }
                 }
-
-                db.SaveChanges();
             }
-
-            ReadAll();
-        }
-
-        // DELETE
-        public static void DeleteItem()
-        {
-            Console.WriteLine("Input Player Name");
-            Console.Write("> ");
-            string name = Console.ReadLine();
-
-            using (var db = new AppDbContext())
-            {
-                var items = db.items.Include(i => i.Owner)
-                            .Where(i => i.Owner.Name == name);
-
-                db.items.RemoveRange(items);
-                db.SaveChanges();
-            }
-
-            ReadAll();
         }
     }
 }

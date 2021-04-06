@@ -10,6 +10,7 @@ namespace EFCore_sample
     class AppDbContext : DbContext
     {
         public DbSet<Item> items { get; set; }
+        public DbSet<Player> Players { get; set; }
 
         // DB Connection string
         // set which DB connected (option, authorization)
