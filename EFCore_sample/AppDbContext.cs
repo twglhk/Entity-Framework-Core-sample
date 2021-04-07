@@ -11,6 +11,7 @@ namespace EFCore_sample
     {
         public DbSet<Item> items { get; set; }
         public DbSet<Player> Players { get; set; }
+        public DbSet<Guild> Guilds { get; set; }
 
         // DB Connection string
         // set which DB connected (option, authorization)

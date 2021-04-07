@@ -21,12 +21,23 @@ namespace EFCore_sample
     }
 
     //Entity class, DB table name = Player
+    [Table("Player")]
     public class Player
     {
         public int PlayerId { get; set; }   // DB table Primary key
                                             // name convention (Class + Id)
         public string Name { get; set; }
 
-        public ICollection<Item> Items { get; set; }
+        //public ICollection<Item> Items { get; set; }
+        public Item Item { get; set; }
+        public Guild Guild { get; set; }
+    }
+
+    [Table("Guild")]
+    public class Guild
+    {
+        public int GuildId { get; set; }
+        public string GuildName { get; set; }
+        public ICollection<Player> Members { get; set; }
     }
 }
