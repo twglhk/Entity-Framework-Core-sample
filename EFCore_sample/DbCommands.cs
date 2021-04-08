@@ -141,11 +141,7 @@ namespace EFCore_sample
             {
                 var info = db.Guilds
                     .Where(g => g.GuildName == name)
-                    .Select(g => new
-                    {
-                        Name = g.GuildName,
-                        MemberCount = g.Members.Count
-                    })
+                    .MapGuildToDto()
                     .First();
 
                 Console.WriteLine($"Guild Name({info.Name}), MemberCount({info.MemberCount})");
