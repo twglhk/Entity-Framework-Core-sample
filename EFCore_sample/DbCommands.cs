@@ -45,6 +45,11 @@ namespace EFCore_sample
                 Name = "GenaralBa"
             };
 
+            //EntityState state = db.Entry(humba).State;
+
+            // 1) Detached
+            Console.WriteLine(db.Entry(humba).State);
+
             // PK의 경우 별도 설정 X
             var items = new List<Item>()
             {
@@ -76,7 +81,29 @@ namespace EFCore_sample
 
             db.items.AddRange(items);   // 내부에 연결된 Player 데이터도 참조해서 DB에 저장 
             db.Guilds.Add(guild);
+
+            // 2) Added
+            Console.WriteLine(db.Entry(humba).State);
+            Console.WriteLine(humba.PlayerId);
+
             db.SaveChanges();
+
+            {
+                var owner = db.Players.Where(p => p.Name == "Humba").First();
+
+                Item item = new Item
+                {
+                    TemplateId = 300,
+                    CreateDate = DateTime.Now,
+                    Owner = owner
+                };
+                db.items.Add(item);
+                db.SaveChanges();
+            }
+
+            // 3) Unchanged
+            Console.WriteLine(db.Entry(humba).State);
+            Console.WriteLine(humba.PlayerId);
         }
 
         // READ
