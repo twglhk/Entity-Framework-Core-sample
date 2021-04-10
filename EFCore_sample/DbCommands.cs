@@ -45,11 +45,6 @@ namespace EFCore_sample
                 Name = "GenaralBa"
             };
 
-            //EntityState state = db.Entry(humba).State;
-
-            // 1) Detached
-            Console.WriteLine(db.Entry(humba).State);
-
             // PK의 경우 별도 설정 X
             var items = new List<Item>()
             {
@@ -82,28 +77,7 @@ namespace EFCore_sample
             db.items.AddRange(items);   // 내부에 연결된 Player 데이터도 참조해서 DB에 저장 
             db.Guilds.Add(guild);
 
-            // 2) Added
-            Console.WriteLine(db.Entry(humba).State);
-            Console.WriteLine(humba.PlayerId);
-
             db.SaveChanges();
-
-            {
-                var owner = db.Players.Where(p => p.Name == "Humba").First();
-
-                Item item = new Item
-                {
-                    TemplateId = 300,
-                    CreateDate = DateTime.Now,
-                    Owner = owner
-                };
-                db.items.Add(item);
-                db.SaveChanges();
-            }
-
-            // 3) Unchanged
-            Console.WriteLine(db.Entry(humba).State);
-            Console.WriteLine(humba.PlayerId);
         }
 
         // READ
@@ -172,6 +146,36 @@ namespace EFCore_sample
                     .First();
 
                 Console.WriteLine($"Guild Name({info.Name}), MemberCount({info.MemberCount})");
+            }
+        }
+
+        // UPDATE
+        // 1) Get Tracked Entity
+        // 2) Set Propery on Entity class
+        // 3) Call SaveChanges()
+
+        /* SQL
+        1) 
+        SELECT TOP(2) GuildId, GuildName
+        FROM [Guilds]
+        WHERE GuildName = N'LIV';
+          
+        2) ~ 3)
+        SET NOCOUNT ON;
+        UPDATE [Guilds]
+        SET GuildName = @p0
+        WHERE GuildId = @p1;
+        SELECT @@ROWCOUNT;
+         */
+        public static void UpdateTest()
+        {
+            using (AppDbContext db = new AppDbContext())
+            {
+                var guild = db.Guilds.Single(g => g.GuildName == "LIV");
+
+                guild.GuildName = "TOT";
+
+                db.SaveChanges();
             }
         }
     }

@@ -15,9 +15,12 @@ namespace EFCore_sample
             //Console.WriteLine("[2] ShowItems");
 
             // Loading Test
-            Console.WriteLine("[1] Eager Loading");
-            Console.WriteLine("[2] Explicit Loading");
-            Console.WriteLine("[3] Select Loading");
+            //Console.WriteLine("[1] Eager Loading");
+            //Console.WriteLine("[2] Explicit Loading");
+            //Console.WriteLine("[3] Select Loading");
+
+            // Update Test
+            Console.WriteLine("[1] Update Guild Data");
 
             while (true)
             {
@@ -30,14 +33,15 @@ namespace EFCore_sample
                         break;
                     case "1":
                         //DbCommands.ReadAll();
-                        DbCommands.EagerLoading();
+                        //DbCommands.EagerLoading();
+                        DbCommands.UpdateTest();
                         break;
                     case "2":
                         //DbCommands.ShowItems();
-                        DbCommands.ExplicitLoading();
+                        //DbCommands.ExplicitLoading();
                         break;
                     case "3":
-                        DbCommands.SelectLoading();
+                        //DbCommands.SelectLoading();
                         break;
                 }
             }
