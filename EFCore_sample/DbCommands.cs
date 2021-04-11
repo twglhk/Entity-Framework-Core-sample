@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
+using Newtonsoft.Json;
 
 namespace EFCore_sample
 {
@@ -167,16 +168,79 @@ namespace EFCore_sample
         WHERE GuildId = @p1;
         SELECT @@ROWCOUNT;
          */
-        public static void UpdateTest()
+        //public static void UpdateTest()
+        //{
+        //    using (AppDbContext db = new AppDbContext())
+        //    {
+        //        var guild = db.Guilds.Single(g => g.GuildName == "LIV");
+
+        //        guild.GuildName = "TOT";
+
+        //        db.SaveChanges();
+        //    }
+        //}
+
+        public static void ShowGuilds()
         {
             using (AppDbContext db = new AppDbContext())
             {
-                var guild = db.Guilds.Single(g => g.GuildName == "LIV");
+                foreach(var guild in db.Guilds.MapGuildToDto())
+                {
+                    Console.WriteLine($"GuildId({guild.GuildId}) GuildName({guild.Name}) MemberCount({guild.MemberCount})");
+                }
+            }
+        }
 
-                guild.GuildName = "TOT";
+        public static void UpdateByReload()
+        {
+            ShowGuilds();
+            Console.WriteLine("Input GuildId");
+            Console.Write(" > ");
+            int id = int.Parse(Console.ReadLine());
+            Console.WriteLine("Input GuildName");
+            Console.WriteLine(" > ");
+            string name = Console.ReadLine();
 
+            using (AppDbContext db = new AppDbContext())
+            {
+                var guild = db.Find<Guild>(id); // Reload
+                guild.GuildName = name;
                 db.SaveChanges();
             }
+
+            Console.WriteLine("--- Update Complete ---");
+            ShowGuilds();
+        }
+
+        public static string MakeUpdateJsonStr()
+        {
+            // JSON Test sample
+            var jsonStr = "{\"GuildId:\":1, \"GuildName\":\"ARS\", \"Members\":null}";
+            return jsonStr;
+        }
+
+        public static void UpdateByFull()
+        {
+            ShowGuilds();
+
+            // JSON Sample
+            //string jsonStr = MakeUpdateJsonStr();
+            //var guild = JsonConvert.DeserializeObject<Guild>(jsonStr);
+
+            Guild guild = new Guild()
+            {
+                GuildId = 1,
+                GuildName = "TestGuild"
+            };
+
+            using (AppDbContext db = new AppDbContext())
+            {
+                db.Guilds.Update(guild);
+                db.SaveChanges();
+            }
+
+            Console.WriteLine("--- Update Complete ---");
+            ShowGuilds();
         }
     }
 }

@@ -12,6 +12,7 @@ namespace EFCore_sample
         {
             return guild.Select(g => new GuildDto
             {
+                GuildId = g.GuildId,
                 Name = g.GuildName,
                 MemberCount = g.Members.Count
             });
