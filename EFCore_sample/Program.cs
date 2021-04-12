@@ -21,8 +21,9 @@ namespace EFCore_sample
 
             // Update Test
             //Console.WriteLine("[1] Update Guild Data");
-            Console.WriteLine("[1] Update (Reload)");
-            Console.WriteLine("[2] Update (Full");
+            //Console.WriteLine("[1] Update (Reload)");
+            //Console.WriteLine("[2] Update (Full");
+            Console.WriteLine("[1] Dependency test");
 
             while (true)
             {
@@ -36,12 +37,13 @@ namespace EFCore_sample
                     case "1":
                         //DbCommands.ReadAll();
                         //DbCommands.EagerLoading();
-                        DbCommands.UpdateByReload();
+                        //DbCommands.UpdateByReload();
+                        DbCommands.Test();
                         break;
                     case "2":
                         //DbCommands.ShowItems();
                         //DbCommands.ExplicitLoading();
-                        DbCommands.UpdateByFull();
+                        //DbCommands.UpdateByFull();
                         break;
                     case "3":
                         //DbCommands.SelectLoading();

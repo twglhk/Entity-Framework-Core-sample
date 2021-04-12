@@ -16,7 +16,8 @@ namespace EFCore_sample
         public DateTime CreateDate { get; set; }
 
         // Other class ref -> FK (Navigational Property)
-        public int OwnerId { get; set; }
+        //[ForeignKey("OwnerID")] => Defalut : non-nullable
+        public int? OwnerId { get; set; }
         public Player Owner { get; set; }
     }
 

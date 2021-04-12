@@ -242,5 +242,42 @@ namespace EFCore_sample
             Console.WriteLine("--- Update Complete ---");
             ShowGuilds();
         }
+
+        public static void ShowItems()
+        {
+            using (AppDbContext db = new AppDbContext())
+            {
+                foreach (var item in db.items.Include(i=>i.Owner).ToList())
+                {
+                    if (item.Owner == null)
+                        Console.WriteLine($"ItemId({item.ItemId}) TemplatedId({item.TemplateId}) Owner(0)");
+
+                    else
+                        Console.WriteLine($"ItemId({item.ItemId}) TemplatedId({item.TemplateId}) OwnerId({item.Owner.PlayerId}) Owner({item.Owner.Name})");
+                }
+            }
+        }
+
+        public static void Test()
+        {
+            ShowItems();
+
+            Console.WriteLine("Input Delete PlayerId");
+            Console.Write(" > ");
+            int id = int.Parse(Console.ReadLine());
+
+            using (AppDbContext db = new AppDbContext())
+            {
+                var player = db.Players
+                        .Include(p => p.Item)
+                        .Single(p => p.PlayerId == id);
+
+                db.Players.Remove(player);
+                db.SaveChanges();
+            }
+
+            Console.WriteLine("---Updated---");
+            ShowItems();
+        }
     }
 }
