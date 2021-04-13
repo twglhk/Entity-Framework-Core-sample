@@ -23,7 +23,8 @@ namespace EFCore_sample
             //Console.WriteLine("[1] Update Guild Data");
             //Console.WriteLine("[1] Update (Reload)");
             //Console.WriteLine("[2] Update (Full");
-            Console.WriteLine("[1] Dependency test");
+            //Console.WriteLine("[1] Dependency test");
+            Console.WriteLine("[1] Update 1vs1");
 
             while (true)
             {
@@ -38,7 +39,9 @@ namespace EFCore_sample
                         //DbCommands.ReadAll();
                         //DbCommands.EagerLoading();
                         //DbCommands.UpdateByReload();
-                        DbCommands.Test();
+                        //DbCommands.Test();
+                        //DbCommands.Update_1v1();
+                        DbCommands.Update_1vM();
                         break;
                     case "2":
                         //DbCommands.ShowItems();

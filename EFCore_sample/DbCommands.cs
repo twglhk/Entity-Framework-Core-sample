@@ -279,5 +279,66 @@ namespace EFCore_sample
             Console.WriteLine("---Updated---");
             ShowItems();
         }
+
+        // Update Relationship 1v1
+        public static void Update_1v1()
+        {
+            ShowItems();
+
+            Console.WriteLine("Input update PlayerId");
+            Console.Write(" > ");
+            int id = int.Parse(Console.ReadLine());
+
+            using (AppDbContext db = new AppDbContext())
+            {
+                var player = db.Players
+                        .Include(p => p.Item)
+                        .Single(p => p.PlayerId == id);
+
+                if (player.Item != null)
+                {
+                    player.Item.TemplateId = 999;
+                    player.Item.CreateDate = DateTime.Now;
+                }
+
+                //player.Item = new Item()
+                //{
+                //    TemplateId = 222,
+                //    CreateDate = DateTime.Now,
+                //};
+
+                db.SaveChanges();
+            }
+
+            Console.WriteLine("---Updated---");
+            ShowItems();
+        }
+
+        // Update Relationship 1vsMany
+        public static void Update_1vM()
+        {
+            ShowGuilds();
+
+            Console.WriteLine("Input update GuildId");
+            Console.Write(" > ");
+            int id = int.Parse(Console.ReadLine());
+
+            using (AppDbContext db = new AppDbContext())
+            {
+                var guild = db.Guilds
+                    //.Include(g => g.Members)
+                    .Single(g => g.GuildId == id);
+
+                guild.Members = new List<Player>()
+                {
+                    new Player() { Name = "HUMS"}
+                };
+
+                db.SaveChanges();
+            }
+
+            Console.WriteLine("---Updated---");
+            ShowGuilds();
+        }
     }
 }
