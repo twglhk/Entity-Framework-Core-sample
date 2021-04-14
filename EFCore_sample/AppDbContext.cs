@@ -21,5 +21,11 @@ namespace EFCore_sample
         {
             options.UseSqlServer(ConnectionString);
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            // Model level filtering
+            builder.Entity<Item>().HasQueryFilter(i => i.SoftDelete == false);
+        }
     }
 }

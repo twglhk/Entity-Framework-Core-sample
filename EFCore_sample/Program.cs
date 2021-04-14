@@ -24,7 +24,10 @@ namespace EFCore_sample
             //Console.WriteLine("[1] Update (Reload)");
             //Console.WriteLine("[2] Update (Full");
             //Console.WriteLine("[1] Dependency test");
-            Console.WriteLine("[1] Update 1vs1");
+            //Console.WriteLine("[1] Update 1vs1");
+
+            // Delete Test
+            Console.WriteLine("[1] Delete");
 
             while (true)
             {
@@ -41,7 +44,8 @@ namespace EFCore_sample
                         //DbCommands.UpdateByReload();
                         //DbCommands.Test();
                         //DbCommands.Update_1v1();
-                        DbCommands.Update_1vM();
+                        //DbCommands.Update_1vM();
+                        DbCommands.DeleteTest();
                         break;
                     case "2":
                         //DbCommands.ShowItems();

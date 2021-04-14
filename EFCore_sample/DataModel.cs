@@ -11,6 +11,8 @@ namespace EFCore_sample
     [Table("Item")]
     public class Item
     {
+        public bool SoftDelete { get; set; }
+
         public int ItemId { get; set; } // PK
         public int TemplateId { get; set; } // Item Id
         public DateTime CreateDate { get; set; }

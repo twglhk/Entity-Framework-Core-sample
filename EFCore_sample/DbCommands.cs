@@ -247,13 +247,21 @@ namespace EFCore_sample
         {
             using (AppDbContext db = new AppDbContext())
             {
-                foreach (var item in db.items.Include(i=>i.Owner).ToList())
+                foreach (var item in db.items.Include(i=>i.Owner).IgnoreQueryFilters().ToList())
                 {
-                    if (item.Owner == null)
-                        Console.WriteLine($"ItemId({item.ItemId}) TemplatedId({item.TemplateId}) Owner(0)");
+                    if (item.SoftDelete)
+                    {
+                        Console.WriteLine($"DELETED : ItemId({item.ItemId}) TemplatedId({item.TemplateId}) Owner(0)");
+                    }
 
                     else
-                        Console.WriteLine($"ItemId({item.ItemId}) TemplatedId({item.TemplateId}) OwnerId({item.Owner.PlayerId}) Owner({item.Owner.Name})");
+                    {
+                        if (item.Owner == null)
+                            Console.WriteLine($"ItemId({item.ItemId}) TemplatedId({item.TemplateId}) Owner(0)");
+
+                        else
+                            Console.WriteLine($"ItemId({item.ItemId}) TemplatedId({item.TemplateId}) OwnerId({item.Owner.PlayerId}) Owner({item.Owner.Name})");
+                    }
                 }
             }
         }
@@ -339,6 +347,26 @@ namespace EFCore_sample
 
             Console.WriteLine("---Updated---");
             ShowGuilds();
+        }
+
+        public static void DeleteTest()
+        {
+            ShowItems();
+
+            Console.WriteLine("Select Delete ItemId");
+            Console.Write(" > ");
+            int id = int.Parse(Console.ReadLine());
+
+            using (AppDbContext db = new AppDbContext())
+            {
+                Item item = db.items.Find(id);
+                //db.items.Remove(item);
+                item.SoftDelete = true;
+                db.SaveChanges();
+            }
+
+            Console.WriteLine("---Updated---");
+            ShowItems();
         }
     }
 }
