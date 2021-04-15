@@ -26,6 +26,50 @@ namespace EFCore_sample
         {
             // Model level filtering
             builder.Entity<Item>().HasQueryFilter(i => i.SoftDelete == false);
+
+
+            /* Fluet API Sample
+
+            builder.Entity<GameResult>()
+              .ToTable("GameTableName");    // Set table name
+
+            builder.Entity<GameResult>()
+              .Property(g => g.RankingId)
+              .HasColumnName("Ranking ID"); // set column name
+
+            builder.Entity<GameResult>()
+              .Property(x => x.UserName)
+              .IsUnicode(false);            // set Varchar. true == nVarchar
+
+            builder.Entity<GameResult>()
+              .Property(x => x.UserName)
+              .HasMaxLength(123);           // Set String Size
+
+            builder.Entity<GameResult>()
+              .Property(x => x.UserName)
+              .IsRequired();                // set not null
+
+            builder.Entity<GameResult>()
+              .HasIndex(x => x.UserName);   // set index
+
+            builder.Entity<GameResult>()
+              .HasQueryFilter(p => p.SocreId > 1000); // set filter
+
+            builder.Entity<GameResult>()
+              .Ignore(g => g.Id);           // non mapping
+
+            builder.Entity<GameResult>()
+              .HasKey(x => new { x.RankingId, x.SocreId }); // Set PK (Composite key)
+
+            builder.Entity<GameResult>()
+              .HasIndex(x => new { x.RankingId, x.SocreId }); // Set index (Composit Index)
+
+            builder.Entity<GameResult>()
+              .HasIndex(g => g.RankingId)
+              .HasName("ASD") // set Index name
+              .IsUnique();	  // set UNIQUE Index
+
+            */
         }
     }
 }
