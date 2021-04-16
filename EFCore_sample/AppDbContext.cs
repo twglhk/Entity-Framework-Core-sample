@@ -27,6 +27,23 @@ namespace EFCore_sample
             // Model level filtering
             builder.Entity<Item>().HasQueryFilter(i => i.SoftDelete == false);
 
+            // Create Index
+            builder.Entity<Player>()
+                .HasIndex(p => p.Name)
+                .HasDatabaseName("Index_Person_Name")
+                .IsUnique();
+
+            // Build Relationship : one to many
+            builder.Entity<Player>()
+                .HasMany(p => p.CreatedItems)
+                .WithOne(i => i.Creator)
+                .HasForeignKey(i => i.TestCreatorId);
+
+            // Build Relationship : one to one
+            builder.Entity<Player>()
+                .HasOne(p => p.OwnedItem)
+                .WithOne(i => i.Owner)
+                .HasForeignKey<Item>(i => i.TestOwnerId);
 
             /* Fluet API Sample
 

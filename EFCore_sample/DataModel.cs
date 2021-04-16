@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -19,8 +20,11 @@ namespace EFCore_sample
 
         // Other class ref -> FK (Navigational Property)
         //[ForeignKey("OwnerID")] => Defalut : non-nullable
-        public int? OwnerId { get; set; }
+        public int TestOwnerId { get; set; }
         public Player Owner { get; set; }
+
+        public int? TestCreatorId { get; set; }
+        public Player Creator { get; set; }
     }
 
     //Entity class, DB table name = Player
@@ -29,10 +33,17 @@ namespace EFCore_sample
     {
         public int PlayerId { get; set; }   // DB table Primary key
                                             // name convention (Class + Id)
-        public string Name { get; set; }
 
-        //public ICollection<Item> Items { get; set; }
-        public Item Item { get; set; }
+        [Required]
+        [MaxLength(20)]
+        public string Name { get; set; }    // Alternate Key
+
+        [InverseProperty("Owner")]
+        public Item OwnedItem { get; set; }
+
+        [InverseProperty("Creator")]
+        public ICollection<Item> CreatedItems { get; set; }
+
         public Guild Guild { get; set; }
     }
 

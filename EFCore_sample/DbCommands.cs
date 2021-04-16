@@ -97,12 +97,12 @@ namespace EFCore_sample
                 var guild = db.Guilds.AsNoTracking()
                             .Where(g => g.GuildName == name)
                             .Include(g => g.Members)
-                            .ThenInclude(p => p.Item)
+                            .ThenInclude(p => p.OwnedItem)
                             .First();
 
                 foreach(Player player in guild.Members)
                 {
-                    Console.WriteLine($"ItemTemplatedId({player.Item.TemplateId} Owner({player.Name}))");
+                    Console.WriteLine($"ItemTemplatedId({player.OwnedItem.TemplateId} Owner({player.Name}))");
                 }
             }
         }
@@ -123,12 +123,12 @@ namespace EFCore_sample
                 foreach (Player player in guild.Members)
                 {
                     // Explicit (item query, select(SQL))
-                    db.Entry(player).Reference(p => p.Item).Load();
+                    db.Entry(player).Reference(p => p.OwnedItem).Load();
                 }
 
                 foreach (Player player in guild.Members)
                 {
-                    Console.WriteLine($"ItemTemplatedId({player.Item.TemplateId} Owner({player.Name}))");
+                    Console.WriteLine($"ItemTemplatedId({player.OwnedItem.TemplateId} Owner({player.Name}))");
                 }
             }
         }
@@ -277,7 +277,7 @@ namespace EFCore_sample
             using (AppDbContext db = new AppDbContext())
             {
                 var player = db.Players
-                        .Include(p => p.Item)
+                        .Include(p => p.OwnedItem)
                         .Single(p => p.PlayerId == id);
 
                 db.Players.Remove(player);
@@ -300,13 +300,13 @@ namespace EFCore_sample
             using (AppDbContext db = new AppDbContext())
             {
                 var player = db.Players
-                        .Include(p => p.Item)
+                        .Include(p => p.OwnedItem)
                         .Single(p => p.PlayerId == id);
 
-                if (player.Item != null)
+                if (player.OwnedItem != null)
                 {
-                    player.Item.TemplateId = 999;
-                    player.Item.CreateDate = DateTime.Now;
+                    player.OwnedItem.TemplateId = 999;
+                    player.OwnedItem.CreateDate = DateTime.Now;
                 }
 
                 //player.Item = new Item()
