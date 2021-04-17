@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,12 +9,36 @@ using System.Threading.Tasks;
 
 namespace EFCore_sample
 {
+    public struct ItemOption
+    {
+        public int str;
+        public int dex;
+        public int hp;
+    }
+
     //Entity class, DB table name = Item
     [Table("Item")]
     public class Item
     {
-        public bool SoftDelete { get; set; }
+        // Backing Field
+        private string _jsonData;
+        public string JsonData 
+        {
+            get { return _jsonData; }
+        }
 
+        public void SetOption(ItemOption option)
+        {
+            _jsonData = JsonConvert.SerializeObject(option);
+        }
+
+        public ItemOption GetOption()
+        {
+            return JsonConvert.DeserializeObject<ItemOption>(_jsonData);
+        }
+
+
+        public bool SoftDelete { get; set; }
         public int ItemId { get; set; } // PK
         public int TemplateId { get; set; } // Item Id
         public DateTime CreateDate { get; set; }

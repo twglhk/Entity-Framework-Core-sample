@@ -45,8 +45,16 @@ namespace EFCore_sample
                 .WithOne(i => i.Owner)
                 .HasForeignKey<Item>(i => i.TestOwnerId);
 
-            /* Fluet API Sample
+            // Shadow Property
+            builder.Entity<Item>().Property<DateTime>("RecoveredDate");
 
+            // Backing Field Mapping
+            builder.Entity<Item>()
+                .Property(i => i.JsonData)
+                .HasField("_jsonData");
+
+            /* Fluet API Sample
+            
             builder.Entity<GameResult>()
               .ToTable("GameTableName");    // Set table name
 
