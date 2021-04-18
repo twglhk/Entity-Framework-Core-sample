@@ -55,11 +55,12 @@ namespace EFCore_sample
                     CreateDate = DateTime.Now,
                     Owner = humba
                 },
-                new Item()
+                new EventItem()
                 {
                     TemplateId = 102,
                     CreateDate = DateTime.Now,
-                    Owner = ba
+                    Owner = ba,
+                    DestroyDate = DateTime.Now
                 },
                 new Item()
                 {
@@ -73,7 +74,16 @@ namespace EFCore_sample
             db.Entry(items[0]).Property("RecoveredDate").CurrentValue = DateTime.Now;
 
             // Test Backing Field
-            items[0].SetOption(new ItemOption() { dex = 1, hp = 2, str = 3 });
+            //items[0].SetOption(new ItemOption() { dex = 1, hp = 2, str = 3 });
+
+            // Test Owned Type
+            items[0].Option = new ItemOption() { Dex = 1, Hp = 2, Str = 3 };
+
+            // Test Table Splitting
+            items[2].Detail = new ItemDetail()
+            {
+                Description = "Item Detail"
+            };
 
             Guild guild = new Guild()
             {
@@ -81,7 +91,7 @@ namespace EFCore_sample
                 Members = new List<Player>() { humba, ba, generalBa }
             };
 
-            db.items.AddRange(items);   // 내부에 연결된 Player 데이터도 참조해서 DB에 저장 
+            db.Items.AddRange(items);   // 내부에 연결된 Player 데이터도 참조해서 DB에 저장 
             db.Guilds.Add(guild);
 
             db.SaveChanges();
@@ -253,7 +263,7 @@ namespace EFCore_sample
         {
             using (AppDbContext db = new AppDbContext())
             {
-                foreach (var item in db.items.Include(i=>i.Owner).IgnoreQueryFilters().ToList())
+                foreach (var item in db.Items.Include(i=>i.Owner).Include(i=>i.Detail).IgnoreQueryFilters().ToList())
                 {
                     if (item.SoftDelete)
                     {
@@ -262,6 +272,19 @@ namespace EFCore_sample
 
                     else
                     {
+                        if (item.Option != null)
+                            Console.WriteLine("STR " + item.Option.Str);
+
+                        // TPH Test
+                        //item.Type == ItemType.EventItem
+                        EventItem eventItem = item as EventItem;
+                        if (eventItem != null)
+                            Console.WriteLine("DestroyDate : " + eventItem.DestroyDate);
+
+                        // Test Table Splitting
+                        if (item.Detail != null)
+                            Console.WriteLine("Item Detail : " + item.Detail.Description);
+
                         if (item.Owner == null)
                             Console.WriteLine($"ItemId({item.ItemId}) TemplatedId({item.TemplateId}) Owner(0)");
 
@@ -365,7 +388,7 @@ namespace EFCore_sample
 
             using (AppDbContext db = new AppDbContext())
             {
-                Item item = db.items.Find(id);
+                Item item = db.Items.Find(id);
                 //db.items.Remove(item);
                 item.SoftDelete = true;
                 db.SaveChanges();

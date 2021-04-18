@@ -12,7 +12,7 @@ namespace EFCore_sample
             Console.WriteLine("Input command");
             Console.WriteLine("[0] Force Reset");
             //Console.WriteLine("[1] ReadAll");
-            //Console.WriteLine("[2] ShowItems");
+            Console.WriteLine("[2] ShowItems");
 
             // Loading Test
             //Console.WriteLine("[1] Eager Loading");
@@ -48,7 +48,7 @@ namespace EFCore_sample
                         DbCommands.DeleteTest();
                         break;
                     case "2":
-                        //DbCommands.ShowItems();
+                        DbCommands.ShowItems();
                         //DbCommands.ExplicitLoading();
                         //DbCommands.UpdateByFull();
                         break;

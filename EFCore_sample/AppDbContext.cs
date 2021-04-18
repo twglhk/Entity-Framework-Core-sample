@@ -9,7 +9,8 @@ namespace EFCore_sample
 {
     class AppDbContext : DbContext
     {
-        public DbSet<Item> items { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<EventItem> EventItems { get; set; }
         public DbSet<Player> Players { get; set; }
         public DbSet<Guild> Guilds { get; set; }
 
@@ -49,9 +50,29 @@ namespace EFCore_sample
             builder.Entity<Item>().Property<DateTime>("RecoveredDate");
 
             // Backing Field Mapping
+            //builder.Entity<Item>()
+            //    .Property(i => i.JsonData)
+            //    .HasField("_jsonData");
+
+            // Owned Type
             builder.Entity<Item>()
-                .Property(i => i.JsonData)
-                .HasField("_jsonData");
+                .OwnsOne(i => i.Option)
+                .ToTable("ItemOption");
+
+            // TPH Test
+            builder.Entity<Item>()
+                .HasDiscriminator(i => i.Type)
+                .HasValue<Item>(ItemType.NormalItem)
+                .HasValue<EventItem>(ItemType.EventItem);
+
+            // Table Splitting
+            builder.Entity<Item>()
+                .HasOne(i => i.Detail)
+                .WithOne()
+                .HasForeignKey<ItemDetail>(i => i.ItemDetailId);
+
+            builder.Entity<Item>().ToTable("Item");
+            builder.Entity<ItemDetail>().ToTable("Item");
 
             /* Fluet API Sample
             

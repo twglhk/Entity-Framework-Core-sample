@@ -9,17 +9,31 @@ using System.Threading.Tasks;
 
 namespace EFCore_sample
 {
-    public struct ItemOption
+    public class ItemOption
     {
-        public int str;
-        public int dex;
-        public int hp;
+        public int Str { get; set; }
+        public int Dex { get; set; }
+        public int Hp { get; set; }
+    }
+
+    public class ItemDetail
+    {
+        public int ItemDetailId { get; set; }
+        public string Description { get; set; }
+    }
+
+    public enum ItemType
+    {
+        NormalItem,
+        EventItem
     }
 
     //Entity class, DB table name = Item
     [Table("Item")]
     public class Item
     {
+        public ItemType Type { get; set; }
+
         // Backing Field
         private string _jsonData;
         public string JsonData 
@@ -27,16 +41,21 @@ namespace EFCore_sample
             get { return _jsonData; }
         }
 
-        public void SetOption(ItemOption option)
-        {
-            _jsonData = JsonConvert.SerializeObject(option);
-        }
+        //public void SetOption(ItemOption option)
+        //{
+        //    _jsonData = JsonConvert.SerializeObject(option);
+        //}
 
-        public ItemOption GetOption()
-        {
-            return JsonConvert.DeserializeObject<ItemOption>(_jsonData);
-        }
+        //public ItemOption GetOption()
+        //{
+        //    return JsonConvert.DeserializeObject<ItemOption>(_jsonData);
+        //}
 
+        // Owned Type
+        public ItemOption Option { get; set; }
+
+        // Table Splitting
+        public ItemDetail Detail { get; set; }
 
         public bool SoftDelete { get; set; }
         public int ItemId { get; set; } // PK
@@ -50,6 +69,12 @@ namespace EFCore_sample
 
         public int? TestCreatorId { get; set; }
         public Player Creator { get; set; }
+    }
+
+    // Entity for TPH
+    public class EventItem : Item
+    {
+        public DateTime DestroyDate { get; set; }
     }
 
     //Entity class, DB table name = Player
