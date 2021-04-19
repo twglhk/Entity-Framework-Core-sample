@@ -22,6 +22,12 @@ namespace EFCore_sample
         public string Description { get; set; }
     }
 
+    public class ItemReview
+    {
+        public int ItemReviewId { get; set; }
+        public int Score { get; set; }
+    }
+
     public enum ItemType
     {
         NormalItem,
@@ -56,6 +62,22 @@ namespace EFCore_sample
 
         // Table Splitting
         public ItemDetail Detail { get; set; }
+
+        public double? AverageScore { get; set; }
+        private readonly List<ItemReview> _reviews = new List<ItemReview>();
+        public IEnumerable<ItemReview> Reviews { get { return _reviews.ToList(); } }
+
+        public void AddReview(ItemReview review)
+        {
+            _reviews.Add(review);
+            AverageScore = _reviews.Average(r => r.Score);
+        }
+
+        public void RemoveReview(ItemReview review)
+        {
+            _reviews.Remove(review);
+            AverageScore = _reviews.Any() ? _reviews.Average(r => r.Score) : (double?)null;
+        }
 
         public bool SoftDelete { get; set; }
         public int ItemId { get; set; } // PK

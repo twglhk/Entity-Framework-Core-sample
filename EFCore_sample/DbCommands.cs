@@ -85,6 +85,12 @@ namespace EFCore_sample
                 Description = "Item Detail"
             };
 
+            // Backing Field + Relationship
+            items[0].AddReview(new ItemReview() { Score = 5 });
+            items[0].AddReview(new ItemReview() { Score = 4 });
+            items[0].AddReview(new ItemReview() { Score = 1 });
+            items[0].AddReview(new ItemReview() { Score = 5 });
+
             Guild guild = new Guild()
             {
                 GuildName = "LIV",
@@ -284,6 +290,12 @@ namespace EFCore_sample
                         // Test Table Splitting
                         if (item.Detail != null)
                             Console.WriteLine("Item Detail : " + item.Detail.Description);
+
+                        // Backing Field + Relationship Test
+                        if (item.AverageScore == null)
+                            Console.WriteLine("Score(None)");
+                        else
+                            Console.WriteLine($"Score({item.AverageScore})");
 
                         if (item.Owner == null)
                             Console.WriteLine($"ItemId({item.ItemId}) TemplatedId({item.TemplateId}) Owner(0)");

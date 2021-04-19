@@ -74,6 +74,11 @@ namespace EFCore_sample
             builder.Entity<Item>().ToTable("Item");
             builder.Entity<ItemDetail>().ToTable("Item");
 
+            builder.Entity<Item>()
+                .Metadata
+                .FindNavigation("Reviews")
+                .SetPropertyAccessMode(PropertyAccessMode.Field);
+
             /* Fluet API Sample
             
             builder.Entity<GameResult>()
