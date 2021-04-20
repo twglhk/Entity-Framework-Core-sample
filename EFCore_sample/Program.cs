@@ -1,9 +1,17 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace EFCore_sample
 {
     class Program
     {
+        // UDF method
+        [DbFunction()]  // Data Annotation Attribute
+        public static double? GetAverageReviewScore(int itemId)
+        {
+            throw new NotImplementedException("Do Not Use. It's for UDF");
+        }
+
         static void Main(string[] args)
         {
             DbCommands.InitializeDB(forceReset: false);
@@ -27,7 +35,9 @@ namespace EFCore_sample
             //Console.WriteLine("[1] Update 1vs1");
 
             // Delete Test
-            Console.WriteLine("[1] Delete");
+            //Console.WriteLine("[1] Delete");
+
+            Console.WriteLine("[3] CalcAvg");
 
             while (true)
             {
@@ -54,6 +64,7 @@ namespace EFCore_sample
                         break;
                     case "3":
                         //DbCommands.SelectLoading();
+                        DbCommands.CalcAverage();
                         break;
                 }
             }

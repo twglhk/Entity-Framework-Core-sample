@@ -74,10 +74,14 @@ namespace EFCore_sample
             builder.Entity<Item>().ToTable("Item");
             builder.Entity<ItemDetail>().ToTable("Item");
 
+            // Backing Field + Relationship
             builder.Entity<Item>()
                 .Metadata
                 .FindNavigation("Reviews")
                 .SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            // UDF
+            builder.HasDbFunction(() => Program.GetAverageReviewScore(0));
 
             /* Fluet API Sample
             

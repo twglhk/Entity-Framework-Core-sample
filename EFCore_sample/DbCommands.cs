@@ -23,6 +23,22 @@ namespace EFCore_sample
                 db.Database.EnsureDeleted();    // Delete DB
                 db.Database.EnsureCreated();    // Create DB with new 'Data Modeling'
 
+                // UDF, Db setup
+                string command =
+                    @" CREATE FUNCTION GetAverageReviewScore (@itemId INT) RETURNS FLOAT
+                       AS
+                       BEGIN
+                       DECLARE @result AS FLOAT
+
+                       SELECT @result = AVG(CAST([Score] AS FLOAT))
+                       FROM ItemReview AS r
+                       WHERE @itemId = r.ItemId
+
+                       RETURN @result
+
+                       END";
+                db.Database.ExecuteSqlRaw(command);
+
                 CreateTestData(db);
                 Console.WriteLine("DB Initialized");
             }
@@ -86,10 +102,25 @@ namespace EFCore_sample
             };
 
             // Backing Field + Relationship
-            items[0].AddReview(new ItemReview() { Score = 5 });
-            items[0].AddReview(new ItemReview() { Score = 4 });
-            items[0].AddReview(new ItemReview() { Score = 1 });
-            items[0].AddReview(new ItemReview() { Score = 5 });
+            //items[0].AddReview(new ItemReview() { Score = 5 });
+            //items[0].AddReview(new ItemReview() { Score = 4 });
+            //items[0].AddReview(new ItemReview() { Score = 1 });
+            //items[0].AddReview(new ItemReview() { Score = 5 });
+
+            // UDF Test
+            items[0].Reviews = new List<ItemReview>()
+            {
+                new ItemReview() { Score = 5},
+                new ItemReview() { Score = 4},
+                new ItemReview() { Score = 2},
+            };
+
+            items[1].Reviews = new List<ItemReview>()
+            {
+                new ItemReview() { Score = 2},
+                new ItemReview() { Score = 1},
+                new ItemReview() { Score = 1},
+            };
 
             Guild guild = new Guild()
             {
@@ -292,10 +323,10 @@ namespace EFCore_sample
                             Console.WriteLine("Item Detail : " + item.Detail.Description);
 
                         // Backing Field + Relationship Test
-                        if (item.AverageScore == null)
-                            Console.WriteLine("Score(None)");
-                        else
-                            Console.WriteLine($"Score({item.AverageScore})");
+                        //if (item.AverageScore == null)
+                        //    Console.WriteLine("Score(None)");
+                        //else
+                        //    Console.WriteLine($"Score({item.AverageScore})");
 
                         if (item.Owner == null)
                             Console.WriteLine($"ItemId({item.ItemId}) TemplatedId({item.TemplateId}) Owner(0)");
@@ -408,6 +439,20 @@ namespace EFCore_sample
 
             Console.WriteLine("---Updated---");
             ShowItems();
+        }
+
+        public static void CalcAverage()
+        {
+            using (AppDbContext db = new AppDbContext())
+            {
+                foreach(double? avg in db.Items.Select(i => Program.GetAverageReviewScore(i.ItemId)))
+                {
+                    if (avg == null)
+                        Console.WriteLine("No Review");
+                    else
+                        Console.WriteLine($"Average : {avg.Value}");
+                }
+            }
         }
     }
 }
