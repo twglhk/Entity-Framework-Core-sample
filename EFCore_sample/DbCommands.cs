@@ -49,7 +49,7 @@ namespace EFCore_sample
         {
             var humba = new Player()
             {
-                Name = "Humba"
+                
             };
 
             var ba = new Player()
@@ -68,20 +68,20 @@ namespace EFCore_sample
                 new Item()
                 {
                     TemplateId = 101,
-                    CreateDate = DateTime.Now,
+                    //CreateDate = DateTime.Now,
                     Owner = humba
                 },
                 new EventItem()
                 {
                     TemplateId = 102,
-                    CreateDate = DateTime.Now,
+                    //CreateDate = DateTime.Now,
                     Owner = ba,
                     DestroyDate = DateTime.Now
                 },
                 new Item()
                 {
                     TemplateId = 103,
-                    CreateDate = DateTime.Now,
+                    //CreateDate = DateTime.Now,
                     Owner = generalBa
                 }
             };
@@ -378,7 +378,7 @@ namespace EFCore_sample
                 if (player.OwnedItem != null)
                 {
                     player.OwnedItem.TemplateId = 999;
-                    player.OwnedItem.CreateDate = DateTime.Now;
+                    //player.OwnedItem.CreateDate = DateTime.Now;
                 }
 
                 //player.Item = new Item()

@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.ValueGeneration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -86,7 +88,7 @@ namespace EFCore_sample
         public bool SoftDelete { get; set; }
         public int ItemId { get; set; } // PK
         public int TemplateId { get; set; } // Item Id
-        public DateTime CreateDate { get; set; }
+        public DateTime CreateDate { get; private set; } //= new DateTime(2020, 1, 1); // Default Value
 
         // Other class ref -> FK (Navigational Property)
         //[ForeignKey("OwnerID")] => Defalut : non-nullable
@@ -101,6 +103,17 @@ namespace EFCore_sample
     public class EventItem : Item
     {
         public DateTime DestroyDate { get; set; }
+    }
+
+    public class PlayerNameGenerator : ValueGenerator<string>
+    {
+        public override bool GeneratesTemporaryValues => false;
+
+        public override string Next(EntityEntry entry)
+        {
+            string name = $"Player_{DateTime.Now.ToString("yyyyMMdd")}";
+            return name;
+        }
     }
 
     //Entity class, DB table name = Player

@@ -83,6 +83,21 @@ namespace EFCore_sample
             // UDF
             builder.HasDbFunction(() => Program.GetAverageReviewScore(0));
 
+            // Default Value
+            //builder.Entity<Item>()
+            //    .Property("CreateDate")
+            //    .HasDefaultValue(new DateTime(2021, 4, 21));
+
+            // Default Value (SQL Segment)
+            builder.Entity<Item>()
+                .Property("CreateDate")
+                .HasDefaultValueSql("GETDATE()");
+
+            // Default Value (Value Generator)
+            builder.Entity<Player>()
+                .Property(p => p.Name)
+                .HasValueGenerator((p, e) => new PlayerNameGenerator());
+
             /* Fluet API Sample
             
             builder.Entity<GameResult>()
