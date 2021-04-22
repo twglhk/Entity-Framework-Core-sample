@@ -85,6 +85,9 @@ namespace EFCore_sample
         // UDF
         public ICollection<ItemReview> Reviews { get; set; }
 
+        // Migration Test
+        public int ItemGrade { get; set; }
+
         public bool SoftDelete { get; set; }
         public int ItemId { get; set; } // PK
         public int TemplateId { get; set; } // Item Id
