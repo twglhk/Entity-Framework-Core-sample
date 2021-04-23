@@ -1,0 +1,52 @@
+﻿{
+   "CodeGenerationMode": 1,
+   "ContextClassName": "EfCoreDbContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "DbFirst",
+   "ProceduresReturnList": false,
+   "ProjectRootNamespace": "EFCore_sample",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[Guild]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Item]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ItemOption]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ItemReview]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Player]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "(localdb)\\MSSQLLocalDB.EFCoreDB",
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseNoConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSpatial": false
+}
