@@ -131,6 +131,45 @@ namespace EFCore_sample
             db.Items.AddRange(items);   // 내부에 연결된 Player 데이터도 참조해서 DB에 저장 
             db.Guilds.Add(guild);
 
+            //Added State test
+            Console.WriteLine("[1] " + db.Entry(humba).State);
+
+            db.SaveChanges();
+
+            // Add Test
+            {
+                Item item = new Item()
+                {
+                    TemplateId = 500,
+                    Owner = humba
+                };
+
+                db.Items.Add(item);
+                // 아이템 추가 -> 간접적으로 Player 영향
+                // Player Tracking 상태이고, FK 설정 필요 없음 (FK가 Item에 존재)
+
+                // Unchanged state test
+                Console.WriteLine("[2] " + db.Entry(humba).State); 
+            }
+
+            // Delete test
+            {
+                Player p = db.Players.First();
+                
+                // DB에 없는 길드 (DB키 없음 0)
+                p.Guild = new Guild() { GuildName = "TempGuild" };
+
+                // 위에서 아이템이 이미 DB에 들어간 상태 (DB키 있음)
+                p.OwnedItem = items[0];
+
+                db.Players.Remove(p);
+
+                // State test
+                Console.WriteLine("[3]" + db.Entry(p).State);   // Deleted
+                Console.WriteLine("[4]" + db.Entry(p.Guild).State); // Added
+                Console.WriteLine("[4]" + db.Entry(p.OwnedItem).State); // Deleted
+            }
+
             db.SaveChanges();
         }
 
