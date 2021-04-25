@@ -33,11 +33,12 @@ namespace EFCore_sample
             //Console.WriteLine("[2] Update (Full");
             //Console.WriteLine("[1] Dependency test");
             //Console.WriteLine("[1] Update 1vs1");
+            Console.WriteLine("[3] TestUpdateAttach");
 
             // Delete Test
             //Console.WriteLine("[1] Delete");
 
-            Console.WriteLine("[3] CalcAvg");
+            //Console.WriteLine("[3] CalcAvg");
 
             while (true)
             {
@@ -64,7 +65,8 @@ namespace EFCore_sample
                         break;
                     case "3":
                         //DbCommands.SelectLoading();
-                        DbCommands.CalcAverage();
+                        //DbCommands.CalcAverage();
+                        DbCommands.TestUpdateAttach();
                         break;
                 }
             }

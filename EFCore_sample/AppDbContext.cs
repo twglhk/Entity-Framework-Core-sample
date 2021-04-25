@@ -13,6 +13,8 @@ namespace EFCore_sample
         public DbSet<EventItem> EventItems { get; set; }
         public DbSet<Player> Players { get; set; }
         public DbSet<Guild> Guilds { get; set; }
+        public DbSet<Monster> Monsters { get; set; }
+        public DbSet<Reward> Rewards { get; set; }
 
         // DB Connection string
         // set which DB connected (option, authorization)
@@ -35,10 +37,10 @@ namespace EFCore_sample
                 .IsUnique();
 
             // Build Relationship : one to many
-            builder.Entity<Player>()
-                .HasMany(p => p.CreatedItems)
-                .WithOne(i => i.Creator)
-                .HasForeignKey(i => i.TestCreatorId);
+            //builder.Entity<Player>()
+            //    .HasMany(p => p.CreatedItems)
+            //    .WithOne(i => i.Creator)
+            //    .HasForeignKey(i => i.TestCreatorId);
 
             // Build Relationship : one to one
             builder.Entity<Player>()

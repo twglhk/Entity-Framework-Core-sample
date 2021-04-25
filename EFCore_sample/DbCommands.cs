@@ -47,9 +47,24 @@ namespace EFCore_sample
         // CREATE
         public static void CreateTestData(AppDbContext db)
         {
+            // Relationship test
+            var monster1 = new Monster()
+            {
+                Name = "Ms"
+            };
+
+            var reward1 = new Reward()
+            {
+                Monster = monster1,
+            };
+
+            db.Rewards.Add(reward1);
+            db.SaveChanges();
+
+
             var humba = new Player()
             {
-                
+
             };
 
             var ba = new Player()
@@ -491,6 +506,41 @@ namespace EFCore_sample
                     else
                         Console.WriteLine($"Average : {avg.Value}");
                 }
+            }
+        }
+
+        public static void TestUpdateAttach()
+        {
+            using (AppDbContext db = new AppDbContext())
+            {
+                // Update Test (Has Relationship, Disconnected state, Full Updated)
+                {
+                    Player p = new Player();
+                    p.PlayerId = 2;
+                    p.Name = "HUMBA HUMBA";
+                    p.Guild = new Guild() { GuildName = "NEW GUILD" }; // No DB Key, 0
+
+                    Console.WriteLine("[6]" + db.Entry(p.Guild).State); // Detached
+                    db.Players.Update(p);
+                    Console.WriteLine("[7]" + db.Entry(p.Guild).State); // Added
+                }
+
+                // Attach Test
+                {
+                    Player p = new Player();
+
+                    p.PlayerId = 3;
+                    p.Name = "HUMHYUNG";
+                    p.Guild = new Guild() { GuildName = "ATTACH GUILD" };
+
+                    Console.WriteLine("[6]" + db.Entry(p.Guild).State); // Detached
+                    db.Players.Attach(p);
+
+                    p.Name = "GERRAD";
+                    Console.WriteLine("[7]" + db.Entry(p.Guild).State); // Added
+                }
+
+                db.SaveChanges();
             }
         }
     }

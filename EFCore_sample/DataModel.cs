@@ -95,11 +95,11 @@ namespace EFCore_sample
 
         // Other class ref -> FK (Navigational Property)
         //[ForeignKey("OwnerID")] => Defalut : non-nullable
-        public int TestOwnerId { get; set; }
+        public int? TestOwnerId { get; set; }
         public Player Owner { get; set; }
 
-        public int? TestCreatorId { get; set; }
-        public Player Creator { get; set; }
+        //public int? TestCreatorId { get; set; }
+        //public Player Creator { get; set; }
     }
 
     // Entity for TPH
@@ -133,8 +133,8 @@ namespace EFCore_sample
         [InverseProperty("Owner")]
         public Item OwnedItem { get; set; }
 
-        [InverseProperty("Creator")]
-        public ICollection<Item> CreatedItems { get; set; }
+        //[InverseProperty("Creator")]
+        //public ICollection<Item> CreatedItems { get; set; }
 
         public int? GuildId { get; set; }
         public Guild Guild { get; set; }
@@ -154,5 +154,19 @@ namespace EFCore_sample
         public int GuildId { get; set; }
         public string Name { get; set; }
         public int MemberCount { get; set; }
+    }
+
+    public class Monster
+    {
+        public int MonsterId { get; set; }
+        public string Name { get; set; }
+        //public ICollection<Reward> Reward {get; set;}
+    }
+
+    public class Reward
+    {
+        public int RewardId { get; set; }
+        public int MonsterId { get; set; }
+        public Monster Monster { get; set; }
     }
 }
