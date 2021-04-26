@@ -119,9 +119,16 @@ namespace EFCore_sample
         }
     }
 
+    // Change Tracker Test
+    public interface ILogEntity
+    {
+        DateTime CreateTime { get; }
+        void SetCreateTime();
+    }
+
     //Entity class, DB table name = Player
     [Table("Player")]
-    public class Player
+    public class Player : ILogEntity
     {
         public int PlayerId { get; set; }   // DB table Primary key
                                             // name convention (Class + Id)
@@ -138,6 +145,13 @@ namespace EFCore_sample
 
         public int? GuildId { get; set; }
         public Guild Guild { get; set; }
+
+        public DateTime CreateTime { get; private set; }
+
+        public void SetCreateTime()
+        {
+            CreateTime = DateTime.Now;
+        }
     }
 
     [Table("Guild")]

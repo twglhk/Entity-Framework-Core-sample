@@ -543,5 +543,50 @@ namespace EFCore_sample
                 db.SaveChanges();
             }
         }
+
+        public static void TestModifyState()
+        {
+            using (AppDbContext db = new AppDbContext())
+            {
+                // State 조작
+                {
+                    Player p = new Player() { Name = "State test" };
+                    db.Entry(p).State = EntityState.Added; // Tracked State
+                    //db.Players.Add(p); 
+                    db.SaveChanges();
+                }
+
+                // TrackGraph
+                {
+                    Player p = new Player()
+                    {
+                        PlayerId = 2,
+                        Name = "Humba_Nex"
+                    };
+
+                    p.OwnedItem = new Item() { TemplateId = 777 };  // 아이템 정보 가정
+                    p.Guild = new Guild() { GuildName = "TrackGraphGuild" };    // 길드 정보 가정
+
+                    db.ChangeTracker.TrackGraph(p, e => 
+                    { 
+                        if (e.Entry.Entity is Player)
+                        {
+                            e.Entry.State = EntityState.Unchanged;
+                            e.Entry.Property("Name").IsModified = true;
+                        }
+                        else if (e.Entry.Entity is Guild)
+                        {
+                            e.Entry.State = EntityState.Unchanged;
+                        }
+                        else if (e.Entry.Entity is Item)
+                        {
+                            e.Entry.State = EntityState.Unchanged;
+                        }
+                    });
+
+                    db.SaveChanges();
+                }
+            }
+        }
     }
 }
