@@ -588,5 +588,48 @@ namespace EFCore_sample
                 }
             }
         }
+
+        public static void DirectSQLCallTest()
+        {
+            using (AppDbContext db = new AppDbContext())
+            {
+                string name = "Ba";
+
+                // FromSql
+                {
+                    // Legacy
+                    var list = db.Players
+                        .FromSqlRaw("SELECT * FROM dbo.Player WHERE Name = {0}", name)
+                        .Include(p => p.OwnedItem)
+                        .ToList();
+
+                    foreach(var p in list)
+                    {
+                        Console.WriteLine($"{p.Name} {p.PlayerId}");
+                    }
+
+                    // String Interpolation C# 6.0
+                    var list2 = db.Players
+                        .FromSqlInterpolated($"SELECT * FROM dbo.Player WHERE Name = {name}")
+                        .ToList();
+
+                    foreach (var p in list2)
+                    {
+                        Console.WriteLine($"{p.Name} {p.PlayerId}");
+                    }
+                }
+
+                // ExecuteSqlCommand (Non-Query SQL) + Reload
+                {
+                    Player p = db.Players.Single(p => p.Name == name);
+
+                    string prevName = name;
+                    string afterName = "HUMBA";
+                    db.Database.ExecuteSqlInterpolated($"UPDATE dbo.Player SET Name = {afterName} WHERE Name = {prevName}");
+
+                    db.Entry(p).Reload();
+                }
+            }
+        }
     }
 }

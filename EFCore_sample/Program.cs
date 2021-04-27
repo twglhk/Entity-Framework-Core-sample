@@ -33,7 +33,8 @@ namespace EFCore_sample
             //Console.WriteLine("[2] Update (Full");
             //Console.WriteLine("[1] Dependency test");
             //Console.WriteLine("[1] Update 1vs1");
-            Console.WriteLine("[3] TestUpdateAttach");
+            //Console.WriteLine("[3] TestUpdateAttach");
+            Console.WriteLine("[3] DirectSQLCallTest");
 
             // Delete Test
             //Console.WriteLine("[1] Delete");
@@ -66,7 +67,8 @@ namespace EFCore_sample
                     case "3":
                         //DbCommands.SelectLoading();
                         //DbCommands.CalcAverage();
-                        DbCommands.TestUpdateAttach();
+                        //DbCommands.TestUpdateAttach();
+                        DbCommands.DirectSQLCallTest();
                         break;
                 }
             }
