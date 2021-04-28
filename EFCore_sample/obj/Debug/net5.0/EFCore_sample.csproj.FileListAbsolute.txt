@@ -63,3 +63,8 @@ C:\Users\User\source\repos\EFCore_sample\EFCore_sample\obj\Debug\net5.0\EFCore_s
 C:\Users\User\source\repos\EFCore_sample\EFCore_sample\obj\Debug\net5.0\EFCore_sample.genruntimeconfig.cache
 C:\Users\User\source\repos\EFCore_sample\EFCore_sample\bin\Debug\net5.0\Humanizer.dll
 C:\Users\User\source\repos\EFCore_sample\EFCore_sample\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\User\source\repos\EFCore_sample\EFCore_sample\bin\Debug\net5.0\Microsoft.Extensions.Configuration.dll
+C:\Users\User\source\repos\EFCore_sample\EFCore_sample\bin\Debug\net5.0\Microsoft.Extensions.Configuration.Binder.dll
+C:\Users\User\source\repos\EFCore_sample\EFCore_sample\bin\Debug\net5.0\Microsoft.Extensions.Logging.Configuration.dll
+C:\Users\User\source\repos\EFCore_sample\EFCore_sample\bin\Debug\net5.0\Microsoft.Extensions.Logging.Console.dll
+C:\Users\User\source\repos\EFCore_sample\EFCore_sample\bin\Debug\net5.0\Microsoft.Extensions.Options.ConfigurationExtensions.dll

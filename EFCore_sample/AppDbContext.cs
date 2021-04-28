@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,10 +20,13 @@ namespace EFCore_sample
         // DB Connection string
         // set which DB connected (option, authorization)
         public const string ConnectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=EFCoreDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        public static readonly ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlServer(ConnectionString);
+            options
+                .UseLoggerFactory(MyLoggerFactory)   // 1번만 만들고 여기에 넣어줘야함
+                .UseSqlServer(ConnectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
